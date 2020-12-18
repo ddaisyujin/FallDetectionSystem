@@ -1,0 +1,236 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head> 
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"> 
+	<title>Danger Detector</title> 
+
+	<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+  <script src="/socket.io/socket.io.js"></script>
+
+	<!-- ip 확인 -->
+	<!-- 
+	<script>
+	//If your site is on Cloudflare, then you can use '/cdn-cgi/trace' instead
+	$.getJSON('https://ipinfo.io/json', function(data) {
+ 	console.log('외부 ip: '+ JSON.stringify(data.ip));
+	});
+ 	 </script>
+ 	-->
+
+  
+  <!-- 폰트꾸미기 -->
+  	<style type="text/css">
+	@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+	@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
+	@import url(//fonts.googleapis.com/earlyaccess/kopubbatang.css);
+	@import url(//fonts.googleapis.com/earlyaccess/nanummyeongjo.css);
+	@import url(//fonts.googleapis.com/earlyaccess/jejuhallasan.css);
+		a0{font-size:50px;font-family:'hanna';}
+		a1{font-size:20px;font-family:'hanna';}
+		a2{font-size:20px;font-family:'hanna';color: red;} <!--font-weight: bold;-->
+		kb{font-family: 'KoPub Batang';}
+		nm0{font-size:10px;font-family: 'Nanum Myeongjo';}
+		nm{font-family: 'Nanum Myeongjo';font-wieght:'bold';}
+		hs{font-family: 'Jeju Hallasan';}
+	</style>
+	
+
+   <!-- 팝업창 띄우기 -->
+	<style>
+	#modal {
+	  display:none;/* Hidden by default */
+	  
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	}
+	
+	#modal h2 {
+	  margin:0;   
+	}
+	
+	#modal button {
+	  display:inline-block;
+	  width:100px;
+	  margin-left:calc(100% - 100px - 10px);
+	}
+	
+	#modal .modal_content {
+	  width:300px;
+	  margin:100px auto;
+	  padding:20px 10px;
+	  background:#fff;
+	  border:2px solid #666;
+	}
+	
+	#modal .modal_layer {
+	  position:fixed;
+	  top:0;
+	  left:0;
+	  width:100%;
+	  height:100%;
+	  background:rgba(0, 0, 0, 0.5);
+	  z-index:-1;
+	}   
+	</style>
+	
+  
+  <!-- 초기 세팅 & socket 연결 -->
+  <script>
+  	var socket;
+  	var currentData=0; // 서버에서 소켓을 통해 받아오는 데이터
+  	var dangerCnt = 0;
+  	
+  	// 문서 로딩 후 실행됨
+  	$(function(){
+  	  	
+  		connectToServer(); // 이 함수로 넘어간다.
+  		
+  		//초기 화면 설정
+  		
+  		$('.alram1').show();
+		$('.alram2').hide();
+  		
+  	});
+  	
+  	// 서버에 연결하는 함수 정의
+  	function connectToServer(){
+  		//println('웹 시작 됐수다.');
+  		var options = {'forceNew' : true}; //?
+  		var localhost = 'localhost';//지연: 172.20.10.4 / 울집: 192.168.35.76
+  		var url = 'http://'+localhost+':3000';
+  
+  		socket = io.connect(url, options);//{ transports: ['websocket'] }
+  		
+  		//console.log(socket);
+  		
+  		socket.on('connect', function(){
+  			println('<nm0>웹 소켓 서버에 연결되었습니다. : ' + url+'</nm0>');
+  			
+  		});
+  		
+  		socket.on('message', function(message){
+  			console.log(JSON.stringify(message)); //브라우저 콘솔화면에 뜸 (서버에서 클라이언트로 보낸 데이터값이)
+  			currentData = message.data;
+  			$("#inputData").text(currentData); // Yolo->Web Input Data 아래에 값이 바뀜
+  			if(currentData == '0')
+  				{
+  					dangerCnt = -1;
+  					$('.alram1').show();
+  					$('.alram2').hide();
+  				}
+  			if(currentData == '1')
+  				{
+  					dangerCnt++;
+  					if(dangerCnt >=5)
+  						{
+  							document.getElementById("modal").style.display="block";
+  						}
+  					$('.alram2').show();
+					$('.alram1').hide();
+  				}
+  			
+  		    document.getElementById("modal_close_btn").onclick = function() {
+  		        document.getElementById("modal").style.display="none";
+  		        dangerCnt = 4;
+  		    }  
+  		});
+  		
+  		socket.on('disconnect', function(){
+  			println('<nm0>웹 소켓 연결이 종료되었습니다.</nm0>');
+  		});
+  	}
+  	
+  	function println(data){
+  		console.log(data);
+  		$("#result").append('<p>' + data + '</p>');
+  	}
+  	
+ 
+  </script>
+
+</head> 
+
+
+
+
+<body> 
+	   <!-- 말머리 -->
+  	<div style='line-height:50%'>
+  	 <h1><nm>Fall Detection</nm></h1> 
+  	 <h3><nm>new wave</nm></h3>
+
+  	 <hr align="left" style="border: solid 10px green;">
+  	 </div>
+	<br><br>
+	
+	<!-- 이미지 -->
+	<div id = "image" >
+
+	</div>
+	
+	<!-- 결과값 & 처리 -->
+	<div>
+	<center>
+		<table border="1" width = "100%" align = "center"/>
+		
+		<th>Yolo → Web Input Data <br></th>
+    	<tr><td align = "center"/>
+    	<a1 id="inputData">0</a1>
+    	</td></tr>
+    	</table>
+    
+      	<br><br><br>
+      	
+      	<table border="1"  width = "100%" align = "center"/>
+      	<th>위험도<br></th>
+      	<tr>
+	      	<td align = "center"/>
+	      	
+	      		<div class= 'alram1' id = 'notDanger'>
+	      			<img src = '/views/notDanger.jpg' width='100px'/><br>
+	      			<a1> 위험도 낮음 </a1>
+	      		</div>
+	      		
+	      		<div class= 'alram2' id = 'Danger'>
+	      			<img src = '/views/danger.jpg' width='100px'/><br>
+		  			<a2> 위험도 높음 </a2>
+	      		</div>
+	    	</td>
+    	</tr>
+    	</table>
+    </center>
+     </div>
+     
+     <div id="modal">
+   
+    <div class="modal_content">
+	       <h2>Danger</h2>
+	       
+	       <p>위험합니다!</p>
+	       
+	       <button type="button" id="modal_close_btn">확인</button>
+	       
+	    </div>
+	   
+	    <div class="modal_layer"></div>
+	</div>
+     
+     <br><br><br><br><br> <p align="center" style ="font-size:7px";> *참고: 데이터는 무작위* </p>
+
+
+	<br><br><br><br><br><br>
+	<div id = "result"> </div> 
+
+</body> 
+
+</html>
