@@ -8,6 +8,7 @@
 
 
 ## __1. YOLO 폴더__
+__YOLO에서 처리된 데이터를 서버(NODE)로 보내자!__
 &nbsp;&nbsp;: yolo → node.js 소켓통신<br/>
 <br/><br/>
 &nbsp;&nbsp;__| YOLO 다운받으면 있는 파일들 |__  
@@ -18,6 +19,7 @@
 
 
 ## __2. Node.js 폴더__
+__받아온 데이터 웹에서 보여주기!__
 &nbsp;&nbsp;: yolo    → node.js 소켓통신(net 모듈)<br/>
 &nbsp;&nbsp;: node.js → web     소켓통신(socket.io 모듈)<br/>
 <br/><br/>
@@ -31,6 +33,7 @@
 
 
 ## __3. 통신 테스트__
+__데이터가 NODE로 잘 보내지는지 LOCAL에서 확인해보자!__
 &nbsp;&nbsp;: node로 데이터 보내기 테스트  
 &nbsp;&nbsp;: c     → node.js 소켓통신  
 &nbsp;&nbsp;: pyton → node.js 소켓통신  
