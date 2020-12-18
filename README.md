@@ -9,7 +9,7 @@
 <br/><br/>
 &nbsp;&nbsp;__| 기존 YOLO 코드 수정 |__  
 &nbsp;&nbsp;&nbsp;&nbsp;-demo.c  
-&nbsp;&nbsp;&nbsp;&nbsp;-image_opencv.c 
+&nbsp;&nbsp;&nbsp;&nbsp;-image_opencv.c<br/><br/>
 <br/><br/>
 
 
@@ -32,5 +32,5 @@
 <br/><br/>
 &nbsp;&nbsp;__| socket test code |__  
 &nbsp;&nbsp;&nbsp;&nbsp;-c_sendData.cpp : c언어로 짠 c → node.js 소켓통신  
-&nbsp;&nbsp;&nbsp;&nbsp;-python_sendData.py : python으로 짠 python → node.js로 소켓통신
+&nbsp;&nbsp;&nbsp;&nbsp;-python_sendData.py : python으로 짠 python → node.js로 소켓통신<br/><br/>
 <br/><br/>
