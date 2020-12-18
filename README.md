@@ -45,5 +45,5 @@ __데이터가 NODE로 잘 보내지는지 LOCAL에서 확인해보자!__
 
 
 ## __동작__
-![동작](https://user-images.githubusercontent.com/35206992/102628961-dbdfbf00-418d-11eb-9d82-534bee1643f7.png)
+![동작](https://user-images.githubusercontent.com/35206992/102629454-8952d280-418e-11eb-8ae3-afdf2fd612b8.png)
 <br><br><br><br>
