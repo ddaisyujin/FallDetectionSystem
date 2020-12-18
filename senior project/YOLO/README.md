@@ -1,4 +1,4 @@
-# YOLO에서 처리된 데이터를 서버로 보내자!
+# YOLO에서 처리된 데이터를 서버(NODE)로 보내자!
 &nbsp;&nbsp;: yolo → node.js 소켓통신<br/>
 <br/><br/>
 &nbsp;&nbsp;__| YOLO 다운받으면 있는 파일들 |__  
