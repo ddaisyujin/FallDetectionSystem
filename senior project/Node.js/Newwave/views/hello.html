@@ -106,7 +106,7 @@
   	function connectToServer(){
   		//println('웹 시작 됐수다.');
   		var options = {'forceNew' : true}; //?
-  		var localhost = 'localhost';//지연: 172.20.10.4 / 울집: 192.168.35.76
+  		var localhost = 'localhost';//ip
   		var url = 'http://'+localhost+':3000';
   
   		socket = io.connect(url, options);//{ transports: ['websocket'] }
